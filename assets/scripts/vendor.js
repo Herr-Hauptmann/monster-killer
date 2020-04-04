@@ -1,6 +1,7 @@
 const monsterHealthBar = document.getElementById('monster-health');
 const playerHealthBar = document.getElementById('player-health');
 const bonusLifeEl = document.getElementById('bonus-life');
+let monstersSlain = document.getElementById('monsters-slain');
 
 const attackBtn = document.getElementById('attack-btn');
 const strongAttackBtn = document.getElementById('strong-attack-btn');
@@ -41,4 +42,9 @@ function removeBonusLife() {
 
 function setPlayerHealth(health) {
   playerHealthBar.value = health;
+}
+
+function displayStats(kills)
+{
+  monstersSlain.textContent = kills;
 }
