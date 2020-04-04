@@ -1,21 +1,23 @@
 const ATTACK_VALUE = 10;
 const STROGN_ATTACK_VALUE = 15;
+const HEAL_VALUE = 10;
+
 let chosenMaxLife = 100;
 
 adjustHealthBars(chosenMaxLife);
 let currentMonsterHealth = chosenMaxLife;
-let currentHealth = chosenMaxLife;
+let currentPlayerHealth = chosenMaxLife;
 
 function setHealth(maxHealth)
 {
     currentMonsterHealth = maxHealth;
-    currentHealth = maxHealth;
+    currentPlayerHealth = maxHealth;
 }
 
 function endRound()
 {
     //Checking if the game is over
-    if (currentMonsterHealth <=0 && currentHealth <= 0)
+    if (currentMonsterHealth <=0 && currentPlayerHealth <= 0)
     {
         alert("It's a draw!");
         resetGame(chosenMaxLife);
@@ -27,7 +29,7 @@ function endRound()
         resetGame(chosenMaxLife);
         setHealth(chosenMaxLife);
     }
-    else if (currentHealth <= 0)
+    else if (currentPlayerHealth <= 0)
     {
         alert("You lost!");
         resetGame(chosenMaxLife);
@@ -51,7 +53,9 @@ function attackMonster(mode)
     //Dammage distribution
     currentMonsterHealth -= damage;
     const recievedDmg = dealPlayerDamage(ATTACK_VALUE);
-    currentHealth -= recievedDmg;
+    currentPlayerHealth -= recievedDmg;
+
+    endRound();
 }
 
 function onAttack()
@@ -63,5 +67,23 @@ function onStrongAttack()
     attackMonster("strong");
 }
 
+function onHeal()
+{
+    if (currentPlayerHealth+HEAL_VALUE >= chosenMaxLife)
+    {
+        alert("You can't heal beyond maximum health");
+        return;
+    }
+
+    increasePlayerHealth(HEAL_VALUE);
+    currentPlayerHealth+=HEAL_VALUE;
+
+    const recievedDmg = dealPlayerDamage(ATTACK_VALUE);
+    currentPlayerHealth -= recievedDmg;
+
+    endRound();
+}
+
 attackBtn.addEventListener("click", onAttack);
-strongAttackBtn.addEventListener("click", onStrongAttack)
+strongAttackBtn.addEventListener("click", onStrongAttack);
+healBtn.addEventListener("click", onHeal);
